@@ -46,6 +46,7 @@
     @elseif ($product->quantity > 5)
     <td><label class="badge badge-success">{{__('messages.active')}}</label></td>
   @endif
+
         <td><img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" width="300px"></td>
         <td>
         <a href="{{url('/show' . '/' . $product->id)}}" class="btn btn-primary">{{__('messages.Show')}}</a>

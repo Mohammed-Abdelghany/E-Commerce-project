@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 
 
@@ -13,7 +14,8 @@ class HomeController extends Controller
   public function home()
   {
     if (Auth::check() && Auth::user()->role === '1') {
-      return view('admin.home');
+
+      return view('admin.home')->with('users', User::paginate(10));
     }
     return view('user.home');
   }

@@ -13,6 +13,8 @@ use App\Http\Middleware\ChangeLanguage;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
+
 
 
 
@@ -34,6 +36,16 @@ Route::middleware([
   Route::get('home', [HomeController::class, 'home'])->name('home');
 
   Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
+
+  Route::delete('/userdestro/{id}', function ($id) {
+    $user = User::find($id);
+    if ($user) {
+      $user->delete();
+      return redirect()->back()->with('success', 'User deleted successfully');
+    }
+    return redirect()->back()->with('error', 'User not found');
+  })->name('user.destroy')->middleware(Admin::class);
+
   Route::controller(ProductController::class)->group(function () {
 
     Route::get('/create', 'create')->name('products.create')->middleware(Admin::class);

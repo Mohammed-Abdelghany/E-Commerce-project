@@ -31,4 +31,12 @@ return [
   'Are you sure you want to delete this product?' => 'هل تريد حذف المنتج هذا؟',
   'inactive' => 'غير متوفر',
   'active' => 'متوفر',
+  'Email' => 'البريد الإلكتروني',
+  'Role' => 'الدور',
+  'Admin' => 'مشرف',
+  'User' => 'مستخدم',
+  'Are you sure you want to delete this user?' => 'هل تريد حذف هذا المستخدم؟',
+  'User deleted successfully' => 'تم حذف المستخدم بنجاح',
+  'User not found' => 'المستخدم غير موجود',
+  
 ];

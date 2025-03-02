@@ -11,6 +11,7 @@ return [
   'Create Product' => 'Create Product',
   'Update Product' => 'Update Product',
   'Delete Product' => 'Delete Product',
+  'Admin' => 'Admin',
 
   'Name' => 'Name',
   'Description' => 'Description',
@@ -33,6 +34,12 @@ return [
   'Are you sure you want to delete this product?' => 'Are you sure you want to delete this product?',
   'inactive' => 'inactive',
   'active' => 'active',
+  'Email' => 'Email',
+  'Role' => 'Role',
+  'User' => 'User',
+  'Are you sure you want to delete this user?' => 'Are you sure you want to delete this user?',
+  'User deleted successfully' => 'User deleted successfully',
+  'User not found' => 'User not found',
 
 
 ];
