@@ -40,6 +40,11 @@ return [
   'Are you sure you want to delete this user?' => 'Are you sure you want to delete this user?',
   'User deleted successfully' => 'User deleted successfully',
   'User not found' => 'User not found',
+  'View all products' => 'View all products',
+  'View details' => 'View details',
+  'Add to cart' => 'Add to cart',
+  'Buy now' => 'Buy now',
+  'Product is not available now' => 'Product is not available now',
 
 
 ];

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Order;
 
 
 
@@ -29,9 +31,14 @@ class ProductController extends Controller
   public function index()
   {
     $products = Product::paginate(10);
-    return view('admin.allproducts', compact('products'));
-  }
+    $user = Auth::user();
 
+    if ($user->role == 1) {
+      return view('admin.allproducts', compact('products'));
+    }
+
+    return view('user.home', compact('products'));
+  }
   /**
    * Show the form for creating a new resource.
    */
@@ -81,10 +88,13 @@ class ProductController extends Controller
   public function show($id)
   {
     //
+
     $product = Product::findOrFail($id);
     if (!$product == null) {
-
-      return view('admin.show', compact('product'));
+      if (User::find(Auth::id())->role == 1) {
+        return view('admin.show', compact('product'));
+      }
+      return view('user.show', compact('product'));
     }
     return redirect()->route('products.index')->with('error', 'Product not found.');
   }
@@ -155,5 +165,87 @@ class ProductController extends Controller
 
     //
 
+  }
+  public function addToCart(Request $request)
+  {
+    $id = $request->product_id;
+    $quantity = $request->quantity;
+    $product = Product::find($id);
+
+    if (!$product) {
+      return redirect()->route('products.index')->with('error', 'Product not found.');
+    }
+
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+      $cart[$id]['quantity'] += $quantity;
+    } else {
+      $cart[$id] = [
+        'name' => $product->name,
+        'price' => $product->price,
+        'image' => $product->image,
+        'quantity' => $quantity,
+        'id' => $product->id,
+      ];
+    }
+
+    session()->put('cart', $cart);
+    return redirect()->route('products.cart')->with('success', 'Product added to cart successfully.');
+  }
+
+  public function cart()
+  {
+    return view('user.cart');
+  }
+  public function cartprocessed(Request $request)
+  {
+    $request->validate([
+      'subtotal' => 'required|numeric|min:0',
+      'tax' => 'required|numeric|min:0',
+      'total' => 'required|numeric|min:0',
+    ]);
+
+    $cart = session()->get('cart', []);
+    $total = 0;
+
+    foreach ($cart as $id => $product) {
+      $productModel = Product::findOrFail($id); 
+      $quantity = $product['quantity']; 
+
+      if ($productModel->quantity < $quantity) {
+        return redirect()->route('products.cart')->with('error', 'The quantity of some products is not available.');
+      }
+
+      $productModel->update([
+        'quantity' => $productModel->quantity - $quantity,
+      ]);
+
+      Order::create([
+        'user_id' => Auth::id(),
+        'product_id' => $productModel->id,
+        'quantity' => $quantity,
+        'status' => 'Done',
+        'total_price' => $productModel->price * $quantity,
+      ]);
+
+      $total += $productModel->price * $quantity;
+    }
+
+    Order::where('user_id', Auth::id())->latest()->first()->update(['total_price' => $total]);
+
+    session()->forget('cart');
+
+    return redirect()->route('home')->with('success', 'Order placed successfully.');
+  }
+
+  public function removeFromCart($productId)
+  {
+    $cart = session()->get('cart', []);
+    if (isset($cart[$productId])) {
+      unset($cart[$productId]);
+      session()->put('cart', $cart);
+    }
+    return redirect()->route('products.cart')->with('success', 'Product removed from cart successfully.');
   }
 }

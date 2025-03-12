@@ -15,12 +15,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 
-
-
-
-
-
-
 Route::get('/', function () {
   return view('welcome');
 });
@@ -51,12 +45,18 @@ Route::middleware([
     Route::get('/create', 'create')->name('products.create')->middleware(Admin::class);
     Route::post('/store', 'store')->name('products.store')->middleware(Admin::class);
     Route::get('/show/{id}', 'show')->name('products.show');
+    Route::get('/cart', 'cart')->name('products.cart');
+    Route::post('/cart/{id}', 'removeFromCart')->name('products.cart.remove');
+
+
+    Route::post('/cart/add/{id}', 'addToCart')->name('products.cart.add');
+    Route::post('/cart', 'cartprocessed')->name('products.cart.processed');
     Route::get('/edit/{id}', 'edit')->name('products.edit')->middleware(Admin::class);
     Route::put('/update/{id}', 'update')->name('products.update')->middleware(Admin::class);
     Route::delete('/destroy/{id}', 'destroy')->name('products.destroy')->middleware(Admin::class);
+    Route::get('allproducts', [ProductController::class, 'index'])->middleware(ChangeLanguage::class)->name('products.index');
   });
 });
-Route::get('allproducts', [ProductController::class, 'index'])->middleware(ChangeLanguage::class)->name('products.index');
 Route::get('/home/{lang}', action: function ($lang) {
   if ($lang == 'ar') {
     Session::put('locale', 'ar');

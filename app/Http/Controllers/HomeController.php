@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -17,7 +18,7 @@ class HomeController extends Controller
 
       return view('admin.home')->with('users', User::paginate(10));
     }
-    return view('user.home');
+    return view('user.home')->with('products', Product::paginate(10));
   }
 
   //

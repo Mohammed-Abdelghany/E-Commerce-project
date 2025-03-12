@@ -38,5 +38,9 @@ return [
   'Are you sure you want to delete this user?' => 'هل تريد حذف هذا المستخدم؟',
   'User deleted successfully' => 'تم حذف المستخدم بنجاح',
   'User not found' => 'المستخدم غير موجود',
-  
+  'View all products' => 'عرض جميع المنتجات',
+  'View details' => 'عرض التفاصيل',
+  'Add to cart' => 'أضف إلى السلة',
+  'Buy now' => 'اشتري الآن',
+  'Product is not available now' => 'المنتج غير متوفر الآن',
 ];
