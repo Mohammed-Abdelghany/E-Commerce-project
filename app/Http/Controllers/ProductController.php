@@ -210,16 +210,26 @@ class ProductController extends Controller
     $total = 0;
 
     foreach ($cart as $id => $product) {
-      $productModel = Product::findOrFail($id); 
-      $quantity = $product['quantity']; 
+      $productModel = Product::findOrFail($id);
+      $quantity = $product['quantity'];
 
       if ($productModel->quantity < $quantity) {
-        return redirect()->route('products.cart')->with('error', 'The quantity of some products is not available.');
+        return redirect()->route('home')->with('error', 'The quantity of some products is not available.');
       }
 
       $productModel->update([
         'quantity' => $productModel->quantity - $quantity,
       ]);
+
+      if (!$productModel->quantity > 0) {
+        $productModel->update([
+          'status' => 'inactive'
+        ]);
+      } else {
+        $productModel->update([
+          'status' => 'active'
+        ]);
+      }
 
       Order::create([
         'user_id' => Auth::id(),
@@ -231,6 +241,7 @@ class ProductController extends Controller
 
       $total += $productModel->price * $quantity;
     }
+
 
     Order::where('user_id', Auth::id())->latest()->first()->update(['total_price' => $total]);
 

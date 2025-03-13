@@ -115,16 +115,13 @@
       let tax = 20.00;
       let total = subtotal + shipping + tax;
 
-      // تحديث الأسعار المعروضة
       document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
       document.getElementById("total").textContent = `$${total.toFixed(2)}`;
 
-      // تحديث القيم في الـ inputs المخفية
       document.getElementById("subtotal-input").value = subtotal.toFixed(2);
       document.getElementById("total-input").value = total.toFixed(2);
     }
 
-    // زيادة الكمية
     document.querySelectorAll(".btn-increase").forEach(btn => {
       btn.addEventListener("click", function () {
       let input = this.closest(".cart-item").querySelector(".quantity-input");
@@ -133,7 +130,6 @@
       });
     });
 
-    // تقليل الكمية
     document.querySelectorAll(".btn-decrease").forEach(btn => {
       btn.addEventListener("click", function () {
       let input = this.closest(".cart-item").querySelector(".quantity-input");
@@ -144,7 +140,6 @@
       });
     });
 
-    // تحديث السعر عند إدخال كمية يدويًا
     document.querySelectorAll(".quantity-input").forEach(input => {
       input.addEventListener("keyup", function () {
       if (this.value < 1 || isNaN(this.value)) this.value = 1;
@@ -152,7 +147,6 @@
       });
     });
 
-    // حذف المنتج
     document.querySelectorAll(".btn-remove").forEach(btn => {
       btn.addEventListener("click", function () {
       let item = this.closest(".cart-item");

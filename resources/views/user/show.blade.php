@@ -31,10 +31,9 @@
           </h4>
           <h5 class="text-primary font-weight-bold">{{ number_format($product->price, 2) }} EGP</h5>
           <p class="text-muted">{{ $product->description }}</p>
-          {{-- زر الشراء أو تفاصيل أكثر --}}
 
           @if ($product->status == 'active')
-        <form method="post" action="{{ route('products.cart.add') }}">
+        <form method="post" action="{{ route('products.cart.add', $product->id) }}">
         @csrf
         <input type="hidden" name="product_id" value="{{ $product->id }}">
         <input type="hidden" name="quantity" value="1">
@@ -45,7 +44,7 @@
         </form>
 
         <div class="mt-2">
-        <a href="{{ url('show/' . $product->id) }}"
+        <a href="{{ route('products.cart.add', $product->id) }}"
         class="btn btn-success btn-lg d-flex align-items-center justify-content-center gap-2">
         <i class="fa fa-shopping-cart"></i> {{ __('messages.Buy now') }}
         </a>

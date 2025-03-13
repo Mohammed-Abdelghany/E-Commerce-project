@@ -46,8 +46,8 @@ Route::middleware([
     Route::post('/store', 'store')->name('products.store')->middleware(Admin::class);
     Route::get('/show/{id}', 'show')->name('products.show');
     Route::get('/cart', 'cart')->name('products.cart');
-    Route::post('/cart/{id}', 'removeFromCart')->name('products.cart.remove');
 
+    Route::post('/cart/{id}', 'removeFromCart')->name('products.cart.remove');
 
     Route::post('/cart/add/{id}', 'addToCart')->name('products.cart.add');
     Route::post('/cart', 'cartprocessed')->name('products.cart.processed');

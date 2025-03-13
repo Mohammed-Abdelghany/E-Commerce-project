@@ -1,9 +1,22 @@
 @extends('user.layouts.app')
 @section('content')
+  @if (session('success'))
+    <div style="margin: 20px;" class="alert alert-success" role="alert">
+    {{ session('success') }}
+    </div>
+  @endif
+
+  @if (session('error'))
+    <div style="margin: 20px;" class="alert alert-danger" role="alert">
+    {{ session('error') }}
+    </div>
+  @endif
 
   <div class="latest-products">
+
     <div class="container">
     <div class="row">
+
       <div class="col-md-12">
       <div class="section-heading">
         <h2>{{__('messages.allproducts')}}</h2>
@@ -16,10 +29,10 @@
 
       <div class="col-md-4">
       <div class="product-item">
-      <a href="{{ url('show/' . $product->id) }}"><img src="{{ asset('storage/' . $product->image) }}"
+      <a href="{{ route('products.show', $product->id) }}"><img src="{{ asset('storage/' . $product->image) }}"
       alt="{{ $product->name }}" height="400px" width="100%"></a>
       <div class="down-content">
-      <a href="{{ url('show/' . $product->id) }}">
+      <a href="{{ route('products.show', $product->id) }}">
       <h4>{{$product->name}}</h4>
       </a>
       <h6>{{$product->price}}</h6>
