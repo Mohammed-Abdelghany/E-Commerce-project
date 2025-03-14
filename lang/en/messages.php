@@ -45,6 +45,7 @@ return [
   'Add to cart' => 'Add to cart',
   'Buy now' => 'Buy now',
   'Product is not available now' => 'Product is not available now',
+  'Orders' => 'Orders',
 
 
 ];

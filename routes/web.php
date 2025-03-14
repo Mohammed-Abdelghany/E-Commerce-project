@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+
+
+use App\Models\Order;
 use App\Models\Product;
 
 use Illuminate\Support\Facades\Route;
@@ -10,10 +14,14 @@ use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\ChangeLanguage;
 
-
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+
+
+
+
+
 
 Route::get('/', function () {
   return view('welcome');
@@ -55,6 +63,18 @@ Route::middleware([
     Route::put('/update/{id}', 'update')->name('products.update')->middleware(Admin::class);
     Route::delete('/destroy/{id}', 'destroy')->name('products.destroy')->middleware(Admin::class);
     Route::get('allproducts', [ProductController::class, 'index'])->middleware(ChangeLanguage::class)->name('products.index');
+  });
+  Route::middleware(Admin::class)->controller(OrderController::class)->group(function () {
+    Route::get('/orders', 'index')->name('orders.index');
+
+    Route::delete('order/{id}', function ($id) {
+      $order = Order::find($id);
+      if ($order) {
+        $order->delete();
+        return redirect('/orders')->with('success', 'Order deleted successfully');
+      }
+      return redirect('/orders')->with('error', 'Order not found');
+    })->name('orders.delete');
   });
 });
 Route::get('/home/{lang}', action: function ($lang) {

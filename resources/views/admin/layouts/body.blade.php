@@ -2,7 +2,7 @@
   <div class="col-12 grid-margin">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Order Status</h4>
+        <h4 class="card-title">Users Table</h4>
         <div class="table-responsive">
           @php $i = ($users->currentPage() - 1) * $users->perPage() + 1; @endphp
           @if (session('success'))

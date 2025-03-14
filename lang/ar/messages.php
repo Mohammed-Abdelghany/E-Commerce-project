@@ -43,4 +43,5 @@ return [
   'Add to cart' => 'أضف إلى السلة',
   'Buy now' => 'اشتري الآن',
   'Product is not available now' => 'المنتج غير متوفر الآن',
+  'Orders'=>'الطلبات'
 ];

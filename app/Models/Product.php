@@ -11,10 +11,4 @@ class Product extends Model
   use HasFactory;
 
   protected $fillable = ['name', 'description', 'price', 'quantity', 'image', 'status', 'user_id'];
-  public function stocks()
-  {
-    return $this->belongsToMany(Stock::class, 'product_stock')
-      ->withPivot('quantity')  // إضافة أي بيانات إضافية تريد حفظها مثل الكمية
-      ->withTimestamps();
-  }
 }
