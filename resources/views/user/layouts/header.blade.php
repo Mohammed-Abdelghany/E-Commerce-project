@@ -15,14 +15,39 @@
               <span class="sr-only">(current)</span>
             </a>
           </li>
+          @auth
 
-          <li class="nav-item {{ Request::is('about') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ url('/about') }}">About Us</a>
+        <li class="nav-item {{ Request::is('cart') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ url('/cart') }}">Cart</a>
+        </li>
+
+
+
+      @endauth
+
+          <li class="nav-item {{ Request::is('contact') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ url('/contact') }}">Contact US</a>
           </li>
 
-          <li class="nav-item {{ Request::is('cart') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ url('/cart') }}">Cart</a>
+          @auth
+        <li class="nav-item {{ Request::is('logout') ? 'active' : '' }}">
+        <a class="nav-link" href="#"
+          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+        <form id="logout-form" action="{{ route('logout') }}" method="post" type="hidden">
+          @csrf
+        </form>
+
+    @endauth
+            @guest
+          <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('/login') }}">Login</a>
+
+
+      @endguest
+
           </li>
+
+
         </ul>
       </div>
 

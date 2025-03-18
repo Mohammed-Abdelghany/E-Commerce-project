@@ -17,13 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
     commands: __DIR__ . '/../routes/console.php',
     health: '/up',
   )
-    ->withMiddleware(function (Middleware $middleware) {
-      //
-      $middleware->alias([
-        'lang' => \App\Http\Middleware\ChangeLanguage::class,
-        
-      ]); 
-    })
+  ->withMiddleware(function (Middleware $middleware) {
+    //
+    $middleware->alias([
+      'lang' => \App\Http\Middleware\ChangeLanguage::class,
+      'user' => \App\Http\Middleware\Users::class
+
+    ]);
+  })
   ->withExceptions(function (Exceptions $exceptions) {
     //
   })->create();

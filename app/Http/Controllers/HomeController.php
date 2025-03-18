@@ -14,6 +14,7 @@ class HomeController extends Controller
 {
   public function home()
   {
+    
     if (Auth::check() && Auth::user()->role === '1') {
 
       return view('admin.home')->with('users', User::paginate(10));

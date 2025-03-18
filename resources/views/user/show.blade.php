@@ -44,8 +44,7 @@
         </form>
 
         <div class="mt-2">
-        <a href="{{ route('products.cart.add', $product->id) }}"
-        class="btn btn-success btn-lg d-flex align-items-center justify-content-center gap-2">
+        <a href="#" class="btn btn-success btn-lg d-flex align-items-center justify-content-center gap-2">
         <i class="fa fa-shopping-cart"></i> {{ __('messages.Buy now') }}
         </a>
         </div>

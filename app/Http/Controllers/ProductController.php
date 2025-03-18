@@ -31,12 +31,15 @@ class ProductController extends Controller
   public function index()
   {
     $products = Product::paginate(10);
-    $user = Auth::user();
 
-    if ($user->role == 1) {
-      return view('admin.allproducts', compact('products'));
+
+
+    if (Auth::user()) {
+      $user = Auth::user();
+      if ($user->role == 1) {
+        return view('admin.allproducts', compact('products'));
+      }
     }
-
     return view('user.home', compact('products'));
   }
   /**
@@ -91,13 +94,20 @@ class ProductController extends Controller
 
     $product = Product::findOrFail($id);
     if (!$product == null) {
-      if (User::find(Auth::id())->role == 1) {
-        return view('admin.show', compact('product'));
+
+      if (Auth::user()) {
+        $user = Auth::user();
+        if ($user->role == 1) {
+
+          return view('admin.show', compact('product'));
+        }
       }
       return view('user.show', compact('product'));
     }
-    return redirect()->route('products.index')->with('error', 'Product not found.');
+    return redirect('/allproducts')->with('error', 'Product not found.');
   }
+
+
 
   /**
    * Show the form for editing the specified resource.

@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ContactController;
 
 
 use App\Models\Order;
@@ -12,7 +13,9 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 use App\Http\Middleware\Admin;
+use App\Http\Middleware\Users;
 use App\Http\Middleware\ChangeLanguage;
+
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -52,18 +55,18 @@ Route::middleware([
 
     Route::get('/create', 'create')->name('products.create')->middleware(Admin::class);
     Route::post('/store', 'store')->name('products.store')->middleware(Admin::class);
-    Route::get('/show/{id}', 'show')->name('products.show');
-    Route::get('/cart', 'cart')->name('products.cart');
+    Route::get('/cart', 'cart')->name('products.cart')->middleware(Users::class);
 
-    Route::post('/cart/{id}', 'removeFromCart')->name('products.cart.remove');
+    Route::post('/cart/{id}', 'removeFromCart')->name('products.cart.remove')->middleware(Users::class);
 
-    Route::post('/cart/add/{id}', 'addToCart')->name('products.cart.add');
-    Route::post('/cart', 'cartprocessed')->name('products.cart.processed');
+
+    Route::post('/cart/add/{id}', 'addToCart')->name('products.cart.add')->middleware(Users::class);
+    Route::post('/cart', 'cartprocessed')->name('products.cart.processed')->middleware(Users::class);
     Route::get('/edit/{id}', 'edit')->name('products.edit')->middleware(Admin::class);
     Route::put('/update/{id}', 'update')->name('products.update')->middleware(Admin::class);
     Route::delete('/destroy/{id}', 'destroy')->name('products.destroy')->middleware(Admin::class);
-    Route::get('allproducts', [ProductController::class, 'index'])->middleware(ChangeLanguage::class)->name('products.index');
   });
+
   Route::middleware(Admin::class)->controller(OrderController::class)->group(function () {
     Route::get('/orders', 'index')->name('orders.index');
 
@@ -85,3 +88,10 @@ Route::get('/home/{lang}', action: function ($lang) {
   }
   return redirect()->back();
 })->middleware(ChangeLanguage::class)->name('home.lang');
+Route::get('allproducts', [ProductController::class, 'index'])->middleware(ChangeLanguage::class)->name('products.index');
+Route::get('/show/{id}', [ProductController::class, 'show'])->name('products.show');
+
+Route::get('/contact', function () {
+  return view('user.contact');
+});
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
