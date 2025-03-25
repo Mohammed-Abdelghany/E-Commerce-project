@@ -20,11 +20,8 @@ use App\Http\Middleware\ChangeLanguage;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
-
-
-
-
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BasicEmail;
 
 Route::get('/', function () {
   return view('welcome');

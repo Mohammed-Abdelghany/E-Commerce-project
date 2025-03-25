@@ -30,7 +30,7 @@ class ProductController extends Controller
    */
   public function index()
   {
-    $products = Product::paginate(10);
+    $products = Product::paginate(6);
 
 
 

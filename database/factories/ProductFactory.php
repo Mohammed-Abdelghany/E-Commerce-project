@@ -27,7 +27,10 @@ class ProductFactory extends Factory
       'quantity' => fake()->numberBetween(1, 100),
       'created_at' => now(),
       'updated_at' => now(),
+      'image' => 'public/products/oONSofofzb2xyFRANaVAZqJfdqjb8O8cy4uguZ0k.jpg',
+      'status' => 'inactive',
       'user_id' => User::factory(),
+
     ];
   }
 }

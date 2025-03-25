@@ -67,11 +67,12 @@
       <h2>No products found.</h2>
     @endif
 
-      {{ $products->links() }}
 
     </div>
     </div>
   </div>
+
+  <div style="padding-left:47%">{{ $products->links() }}</div>
 
 
 

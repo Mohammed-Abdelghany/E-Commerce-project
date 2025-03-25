@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -31,6 +32,10 @@ class ContactController extends Controller
         'message' => $request->msg
       ]
     );
+    Mail::send('emails.mail', ['name' => $request->name,'msg'=>$request->msg], function ($message) use ($request) {
+      $message->to($request->email);
+      $message->subject('Welcome to our website');
+    });
 
     return redirect('/allproducts')->with('success', 'Your message has been sent successfully');
   }
