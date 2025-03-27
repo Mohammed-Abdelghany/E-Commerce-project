@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BasicEmail;
+use App\Http\Controllers\GoogleAuthController;
 
 Route::get('/', function () {
   return view('welcome');
@@ -92,3 +93,6 @@ Route::get('/contact', function () {
   return view('user.contact');
 });
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('auth/google/redirect', [GoogleAuthController::class, 'redirectToGoogle'])->name('google');
+Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('googleCallback');
